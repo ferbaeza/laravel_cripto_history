@@ -17,5 +17,4 @@ class AuthRegisterBindings implements Register
             AuthEloquentDrivenInterface::class => AuthEloquentAdapter::class,
         ];
     }
-} {
 }

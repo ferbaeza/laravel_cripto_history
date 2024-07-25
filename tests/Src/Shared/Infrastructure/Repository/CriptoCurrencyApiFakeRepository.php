@@ -2,12 +2,13 @@
 
 namespace Tests\Src\Shared\Infrastructure\Repository;
 
-use Src\Shared\Externo\Domain\Interfaces\CurrencyApiRepositoryInterface;
+use Src\Shared\Integracion\Cripto\Domain\Interfaces\IntegracionCriptoRepositoryInterface;
 
 
-class CriptoCurrencyApiFakeRepository implements CurrencyApiRepositoryInterface
+
+class CriptoCurrencyApiFakeRepository implements IntegracionCriptoRepositoryInterface
 {
-    public function getInfo()
+    public function obtenerInformacionCriptos()
     {
         $file = file_get_contents('public/cripto.json');
         $data = json_decode($file, true);
