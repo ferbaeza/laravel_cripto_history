@@ -23,6 +23,8 @@ class CriptoHistoryApiTest extends TestCase
     #[Test]
     public function deberia_devolver_algo_la_llamada_a_la_api()
     {
+        $this->markTestSkipped('No se puede probar porque no se tiene acceso a la API');
+
         $userLogin = UsuarioTestModel::admin();
         $response = $this->actingAs($userLogin)->get(route('panel.obtenerCriptos'));
         dd($response->json());
