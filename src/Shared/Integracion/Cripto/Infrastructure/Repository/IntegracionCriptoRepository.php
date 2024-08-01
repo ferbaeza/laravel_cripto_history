@@ -20,9 +20,12 @@ class IntegracionCriptoRepository implements IntegracionCriptoRepositoryInterfac
     }
     public function obtenerInformacionCriptos(): IntegracionCriptoDTOCollection
     {
-        $response = $this->client->get(self::COINAPI_URL . self::COINAPI_TOKEN);
+        $response = $this->client->getAsync('api.coincap.io/v2/assets')->wait();
         $data = json_decode($response->getBody()->getContents(), true);
-        // File::put('public/cripto.json', json_encode($data));
-        return IntegracionCriptoFactory::fromRepository($data);
+        File::put('public/criptoCoinCap.json', json_encode($data));
+        dd($data);
+        // $response = $this->client->get(self::COINAPI_URL . self::COINAPI_TOKEN);
+        // $data = json_decode($response->getBody()->getContents(), true);
+        return $data;
     }
 }
