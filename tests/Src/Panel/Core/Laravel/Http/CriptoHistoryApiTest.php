@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Src\Shared\Infrastructure\Http;
+namespace Tests\Src\Panel\Core\Laravel\Http;
 
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Utils\Usuarios\UsuarioTestModel;
-use Tests\Src\Shared\Infrastructure\Repository\CriptoCurrencyApiFakeRepository;
 use Src\Shared\Integracion\Cripto\Domain\Interfaces\IntegracionCriptoRepositoryInterface;
+use Tests\Src\Shared\Integracion\Cripto\Infrastructure\Repository\IntegracionCriptoFakeRepository;
 
 class CriptoHistoryApiTest extends TestCase
 {
@@ -16,18 +16,24 @@ class CriptoHistoryApiTest extends TestCase
         parent::setUp();
 
         $this->app->bind(IntegracionCriptoRepositoryInterface::class, function () {
-            return new CriptoCurrencyApiFakeRepository();
+            return new IntegracionCriptoFakeRepository();
         });
     }
 
     #[Test]
-    public function deberia_devolver_algo_la_llamada_a_la_api()
+    public function deberia_devolver_algo_la_llamada_a_la_api_de_cripto()
     {
         $userLogin = UsuarioTestModel::admin();
         $response = $this->actingAs($userLogin)->get(route('panel.obtenerCriptos'));
-        dd($response->json());
         $response->assertStatus(200);
-        $response = $this->currencyApiRepository->getInfo();
-        $this->assertIsArray($response);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'exchange_id',
+                    'website',
+                    'name',
+                ],
+            ],
+        ]);
     }
 }

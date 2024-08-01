@@ -4,6 +4,8 @@ namespace Src\Shared\Integracion\Cripto\Infrastructure\Repository;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\File;
+use Src\Shared\Integracion\Cripto\Domain\Factory\IntegracionCriptoFactory;
+use Src\Shared\Integracion\Cripto\Domain\Collection\IntegracionCriptoDTOCollection;
 use Src\Shared\Integracion\Cripto\Domain\Interfaces\IntegracionCriptoRepositoryInterface;
 
 
@@ -16,12 +18,11 @@ class IntegracionCriptoRepository implements IntegracionCriptoRepositoryInterfac
         protected Client $client
     ) {
     }
-    public function obtenerInformacionCriptos()
+    public function obtenerInformacionCriptos(): IntegracionCriptoDTOCollection
     {
-        dd(22);
         $response = $this->client->get(self::COINAPI_URL . self::COINAPI_TOKEN);
         $data = json_decode($response->getBody()->getContents(), true);
         // File::put('public/cripto.json', json_encode($data));
-        return $data;
+        return IntegracionCriptoFactory::fromRepository($data);
     }
 }

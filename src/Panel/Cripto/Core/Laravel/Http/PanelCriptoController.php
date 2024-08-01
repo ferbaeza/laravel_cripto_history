@@ -16,6 +16,8 @@ class PanelCriptoController extends BaseController
     public function obtenerCriptos(): JsonResponse
     {
         $reponse = $this->panelCriptoInterface->obtenerCriptos();
+        
+        dump('Controller executed');
         return $this->sendResponse('Panel de Info de Criptos', $reponse);
     }
 

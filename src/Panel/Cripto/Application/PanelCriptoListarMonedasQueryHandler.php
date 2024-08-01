@@ -2,6 +2,9 @@
 
 namespace Src\Panel\Cripto\Application;
 
+use App\Jobs\MainJob;
+use App\Events\MainEvent;
+use Illuminate\Support\Facades\File;
 use Src\Panel\Cripto\Core\Ports\Driven\PanelCriptoDrivenInterface;
 
 final readonly class PanelCriptoListarMonedasQueryHandler
@@ -14,7 +17,11 @@ final readonly class PanelCriptoListarMonedasQueryHandler
 
     public function run(PanelCriptoListarMonedasQuery $query)
     {
-        $informacion = $this->panelCriptoDrivenAdapter->listarMonedas();
-        dd($informacion);
+        $response = $this->panelCriptoDrivenAdapter->obtenerCriptosFromApi();
+
+        // MainJob::dispatch($response);
+        event(new MainEvent($response));
+
+        return $response;
     }
 }

@@ -3,20 +3,18 @@
 namespace Src\Panel\Cripto\Core\Adapters\Driven;
 
 use Src\Panel\Cripto\Core\Ports\Driven\PanelCriptoDrivenInterface;
-use Src\Shared\Integracion\Exchange\Domain\Interfaces\IntegracionExchangeCurrencyRepositoryInterface;
+use Src\Shared\Integracion\Cripto\Domain\Collection\IntegracionCriptoDTOCollection;
+use Src\Shared\Integracion\Cripto\Domain\Interfaces\IntegracionCriptoRepositoryInterface;
 
 class PanelCriptoDrivenAdapter implements PanelCriptoDrivenInterface
 {
-
     public function __construct(
-        public IntegracionExchangeCurrencyRepositoryInterface $currencyApiRepository
+        public readonly IntegracionCriptoRepositoryInterface $integracionCriptoRepository
     )
         {
     }
-
-    public function listarMonedas()
+    public function obtenerCriptosFromApi(): IntegracionCriptoDTOCollection
     {
-        $this->currencyApiRepository->obtenerInformacionCurrencies();
+        return $this->integracionCriptoRepository->obtenerInformacionCriptos();
     }
-
 }
